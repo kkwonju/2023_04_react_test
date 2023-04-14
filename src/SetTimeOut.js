@@ -15,6 +15,7 @@ export default function SetTimeOut() {
             <button onClick={pause}>일시정지</button>
             &nbsp;
             <button onClick={resume}>재개</button>
+            <hr />
         </>
     );
 }
