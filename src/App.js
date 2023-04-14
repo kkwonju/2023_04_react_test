@@ -1,34 +1,44 @@
 import React, { useState } from "react";
 
+let AppCallCount = 0;
+
 function App() {
-  // [초기값, 초기값을 어떻게 할 것인가]
-  const [num, setNum] = useState(0);
+  AppCallCount++;
+  console.log(`app이 ${AppCallCount}번 실행됨!`);
 
-  const onBtnIncreaseClicked = () => setNum(num + 1);
-
-  const onBtnDecreaseClicked = () => setNum(num - 1);
-  
-  const reset = () => {
-    setNum(0);
-  };
-
-
-
+  const [name, setName] = useState("paul");
+  const [age, setAge] = useState(10);
+  const [address, setAddress] = useState("대전시 서구");
 
   return (
     <>
-      <div>
-        NUM : {num}
-      </div>
-      <button onClick={onBtnIncreaseClicked}>1 증가</button>
-      <br/>
-      <button onClick={onBtnDecreaseClicked}>1 감소</button>
-      <br/>
-      <button onClick={() => setNum(num + 10)}>10 증가</button>
-      <br/>
-      <button onClick={() => setNum(num - 10)}>10 감소</button>
-      <br/>
-      <button onClick={reset}>Reset</button>
+      <input type="text"
+        placeholder="이름을 입력해주세요"
+        value={name}
+        onChange={(e) => {
+          console.log(`e.target.value: ${e.target.value}`);
+          setName(e.target.value);
+        }} />
+      &nbsp; / &nbsp; 현재 이름 : {name}
+      <hr />
+      <input type="number"
+        placeholder="나이를 입력해주세요"
+        value={age}
+        onChange={(e) => {
+          console.log(`e.target.value: ${e.target.value}`);
+          setAge(e.target.value);
+        }} />
+      &nbsp; / &nbsp; 현재 나이 : {age}
+      <hr />
+      <input type="text"
+        placeholder="주소를 입력해주세요"
+        value={address}
+        onChange={(e) => {
+          console.log(`e.target.value: ${e.target.value}`);
+          setAddress(e.target.value);
+        }} />
+      &nbsp; / &nbsp; 현재 주 : {address}
+      <hr />
     </>
   );
 }
