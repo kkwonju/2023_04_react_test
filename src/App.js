@@ -39,6 +39,11 @@ function App() {
         }} />
       &nbsp; / &nbsp; 현재 주 : {address}
       <hr />
+      <div onMouseOver={(e) => {
+        console.log('마우스가 이동했음');
+      }}>
+        마우스를 올려보세요
+      </div>
     </>
   );
 }
