@@ -4,7 +4,7 @@ export default function App() {
 
   return (
     <>
-      <ProdList/>
+      <ProdList className="container mx-auto"/>
     </>
   );
 }
