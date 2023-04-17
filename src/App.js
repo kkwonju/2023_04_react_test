@@ -1,10 +1,10 @@
-import Popup from "./Popup";
+import ProductListItem from "./ProductListItem";
 
 export default function App() {
 
   return (
     <>
-      <Popup/>
+      <ProductListItem />
     </>
   );
 }
