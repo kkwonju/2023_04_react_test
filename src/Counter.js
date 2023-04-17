@@ -28,12 +28,12 @@ export default function Counter() {
         </>
     );
 
-    // const noIsNot8MultipleDiv = no % 8 == 0 || (
-    //     <>
-    //         <hr/>
-    //         <div>8의 배수가 아닙니다</div>
-    //     </>
-    // );
+    const noIsNot8MultipleDiv = no % 8 == 0 || (
+        <>
+            <hr/>
+            <div>8의 배수가 아닙니다</div>
+        </>
+    );
 
     return (
         <>
