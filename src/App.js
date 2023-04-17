@@ -1,14 +1,10 @@
-import Control from "./Control";
-import Counter from "./Counter";
-import SetTimeOut from "./SetTimeOut";
+import Popup from "./Popup";
 
 export default function App() {
 
   return (
     <>
-      <Control />
-      <SetTimeOut />
-      <Counter/>
+      <Popup/>
     </>
   );
 }
