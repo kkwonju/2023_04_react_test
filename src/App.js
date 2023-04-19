@@ -18,12 +18,22 @@ export default function App() {
       form.age.focus();
       return;
     }
+
+    const name = form.name.value;
+    const age = form.age.value;
+
+    alert(`이름:${name}, 나이:${age}`);
+
+    form.name.value = "";
+    form.age.value = "";
+
+    form.name.focus();
   }
   return (
     <>
     {/* <NoRecord/> */}
     <form onSubmit={onSubmit}>
-      <input type="text" name="name" placeholder="Name"/>
+      <input type="text" name="name" placeholder="Name" autoComplete="off"/>
       <br />
       <input type="number" name="age" placeholder="Age"/>
       <br />
