@@ -5,7 +5,10 @@ export default function NoRecord() {
   const [recordedNos, setRecordedNos] = useState([]);
 
   const saveNo = () => {
-    if( no === ''){
+
+    // (e) => { e.preventDefault(); ...
+
+    if (no === '') {
       alert('숫자를 입력해주세요');
       return;
     }
@@ -17,12 +20,19 @@ export default function NoRecord() {
 
   return (
     <>
-      <input
-        type="number"
-        value={no}
-        onChange={(e) => setNo(e.target.valueAsNumber)} />
-      <button type="button" onClick={saveNo}>기록</button>
-
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        saveNo();
+        }}>
+        <input
+          type="number"
+          value={no}
+          placeholder={0}
+          onChange={(e) => setNo(e.target.valueAsNumber)} />
+        <button type="submit" className="border border-black-500">
+          기록
+        </button>
+      </form>
       {/* 버전 1 */}
       <hr />
       <h1>기록된 숫자 v1</h1>
@@ -38,7 +48,7 @@ export default function NoRecord() {
       <h1>기록된 숫자 v3</h1>
       <ul className="flex">
         {recordedNos.map((el, index) => (
-        <li key={index}>{el},</li>
+          <li key={index}>{el},</li>
         ))}
       </ul>
 

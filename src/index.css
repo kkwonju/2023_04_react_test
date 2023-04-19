@@ -16,6 +16,10 @@ body,
     height: 100%;
 }
 
+h1 {
+    font-size: 20px;
+    font-weight: 900;
+}
 /* 지마켓산스 폰트 적용 /
     html > body,
     html > body input,
