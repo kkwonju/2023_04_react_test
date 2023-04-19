@@ -3,7 +3,7 @@ import React, { useState } from "react";
 export default function NoRecord() {
   const [recordedNos, setRecordedNos] = useState([]);
 
-  // (e) => { e.preventDefault(); ...
+      // (e) => { e.preventDefault(); ...
   const saveNo = (form) => {
     form.no.value = form.no.value.trim();
     if (form.no.value.length == 0) {
@@ -23,16 +23,12 @@ export default function NoRecord() {
       <form onSubmit={(e) => {
         e.preventDefault();
         saveNo(e.target);
-      }}>
-        <input
-          type="number"
-          name="no"
-        />
+        }}>
+        <input type="number" name="no"/>
         <button type="submit" className="border border-black-500">
           기록
         </button>
       </form>
-
       {/* 버전 1 */}
       <hr />
       <h1>기록된 숫자 v1</h1>
