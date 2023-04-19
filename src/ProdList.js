@@ -6,7 +6,10 @@ export default function ProdList({ className }) {
         <>
             <div className={className}>
 
-                <ul className="grid gap-[20px]
+                <ul className="
+                    border
+                    border-red-500
+                    grid gap-[20px]
                     grid-cols-1 
                     sm:grid-cols-2 
                     md:grid-cols-3 

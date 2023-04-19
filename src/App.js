@@ -1,10 +1,10 @@
-import ProdList from "./ProdList";
+import NoRecord from "./NoRecord";
 
 export default function App() {
 
   return (
     <>
-      <ProdList className="container mx-auto"/>
+      <NoRecord />
     </>
   );
 }
