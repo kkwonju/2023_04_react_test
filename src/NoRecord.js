@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 
 export default function NoRecord() {
-  const [no, setNo] = useState(0);
+  const [no, setNo] = useState('');
   const [recordedNos, setRecordedNos] = useState([]);
 
   const saveNo = () => {
+    if( no === ''){
+      alert('숫자를 입력해주세요');
+      return;
+    }
     setRecordedNos([...recordedNos, no]);
+    setNo('');
   };
   // const li = [1,2,3].map((el, index) => <li key={index}>{el}</li>);
   const li = recordedNos.map((el, index) => <li key={index}>{el},</li>);
