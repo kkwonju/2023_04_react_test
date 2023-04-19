@@ -31,7 +31,7 @@ export default function App() {
   }
   return (
     <>
-    {/* <NoRecord/> */}
+    <NoRecord/>
     <form onSubmit={onSubmit}>
       <input type="text" name="name" placeholder="Name" autoComplete="off"/>
       <br />
