@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import NoRecord from "./NoRecord";
 
 export default function App() {
   const formInputNoRef = useRef(null);
@@ -30,6 +31,8 @@ export default function App() {
           onChange={(e) => setNo(e.target.value)} />
         <button>실행</button>
       </form>
+      <hr />
+      <NoRecord/>
     </>
   );
 }
