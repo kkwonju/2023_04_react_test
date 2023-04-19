@@ -1,28 +1,17 @@
 import { useState } from "react";
 
-let AppCallCount = 0;
-
 export default function App() {
-  AppCallCount++;
-  console.log(`App이 ${AppCallCount}번 실행됨!`);
-
-  const [no, setNo] = useState(0);
-
-  const increaseNo = () => {
-    // a = a + 5;
-    setNo((no) => no+5);
-    setNo((no) => no+5);
-    setNo((no) => no+5);
-
-    // a = 5;
-    setNo(no + 5);
-    setNo(no + 5);
-    setNo(no + 5);
+  const [ages, setAges] = useState([1, 2, 3]);
+  
+  const onClick = () => {
+    setAges((ages) => [...ages, ages.length + 1]);
+    setAges((ages) => [...ages, ages.length + 1]);
+    setAges((ages) => [...ages, ages.length + 1]);
   };
 
   return (
     <>
-      <button onClick={increaseNo}>no : {no}</button>
+      <button onClick={onClick}>나이 : [{ages.join(",")}]</button>
     </>
   );
 }
