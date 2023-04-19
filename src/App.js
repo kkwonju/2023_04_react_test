@@ -1,17 +1,35 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function App() {
-  const [ages, setAges] = useState([1, 2, 3]);
-  
-  const onClick = () => {
-    setAges((ages) => [...ages, ages.length + 1]);
-    setAges((ages) => [...ages, ages.length + 1]);
-    setAges((ages) => [...ages, ages.length + 1]);
-  };
+  const formInputNoRef = useRef(null);
+  const [no, setNo] = useState('');
 
+  const notice = () => {
+    if (!no) {
+      alert('숫자를 입력해주세요');
+      formInputNoRef.current.focus();
+      return;
+    }
+
+    alert(`당신이 입력한 숫자는 ${no}입니다`);
+    formInputNoRef.current.focus();
+  }
   return (
     <>
-      <button onClick={onClick}>나이 : [{ages.join(",")}]</button>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          notice();
+        }}
+      >
+        <input
+          ref={formInputNoRef}
+          type="text"
+          placeholder="숫자"
+          value={no}
+          onChange={(e) => setNo(e.target.value)} />
+        <button>실행</button>
+      </form>
     </>
   );
 }
