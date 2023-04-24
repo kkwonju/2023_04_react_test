@@ -25,10 +25,27 @@ h1 {
     font-weight: 900;
 }
 
-button {
-    border: 1px solid #000;    
-    border-radius: 5px;
-    background-color: deepskyblue;
+.btnn {
+    background-color: #7da7e3;
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.btnn:hover {
+    scale: 1.2;
+    z-index: 10;
+}
+
+.btnn:active {
+    scale: 1.4;
+    z-index: 10;
 }
 /* 지마켓산스 폰트 적용 /
     html > body,

@@ -16,17 +16,11 @@ export default function RefEx() {
     setNo("");
   };
 
-  const removeNo5 = () => {
-    const newRecordedNos = recordedNos.filter((el) => el != 5);
+  const removeNo = (index) => {
+    const newRecordedNos = recordedNos.filter((el, _index) => _index != index);
     setRecordedNos(newRecordedNos);
   }
 
-  const removeFirst = () => {
-    setRecordedNos(recordedNos.filter((_, index) => index != 0));
-  }
-  const removeLast = () => {
-    setRecordedNos(recordedNos.filter((_, index) => index != recordedNos.length - 1));
-  }
 
   const li = recordedNos.map((el, index) => <li key={index}>{el}</li>);
 
@@ -43,7 +37,7 @@ export default function RefEx() {
           value={no}
           onChange={(e) => setNo(e.target.valueAsNumber)}
         />
-        <button type="submit">기록</button>
+        <button className="btnn" type="submit">기록</button>
       </form>
 
       <hr />
@@ -52,9 +46,10 @@ export default function RefEx() {
       {recordedNos.join(",")}
 
       <hr />
-      <button onClick={removeNo5}>숫자 5 제거</button>
-      <button onClick={removeFirst}>첫 숫자 제거</button>
-      <button onClick={removeLast}>마지막 숫자 제거</button>
+      <button className="btnn" onClick={() => removeNo(0)}>Index 0 Del</button>
+      <button className="btnn" onClick={() => removeNo(1)}>Index 1 Del</button>
+      <button className="btnn" onClick={() => removeNo(2)}>Index 2 Del</button>
+      <button className="btnn" onClick={() => removeNo(3)}>Index 3 Del</button>
     </>
   );
 }
