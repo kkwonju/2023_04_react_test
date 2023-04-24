@@ -24,6 +24,12 @@ h1 {
     font-size: 20px;
     font-weight: 900;
 }
+
+button {
+    border: 1px solid #000;    
+    border-radius: 5px;
+    background-color: deepskyblue;
+}
 /* 지마켓산스 폰트 적용 /
     html > body,
     html > body input,
