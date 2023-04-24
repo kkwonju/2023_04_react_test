@@ -46,6 +46,10 @@ h1 {
     scale: 1.4;
     z-index: 10;
 }
+
+.text-pink {
+    color: rgb(223, 135, 149);
+}
 /* 지마켓산스 폰트 적용 /
     html > body,
     html > body input,

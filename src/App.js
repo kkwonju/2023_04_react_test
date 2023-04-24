@@ -1,4 +1,41 @@
-function Alert({color: _color, children}) {
+import React, { useState } from "react";
+import classNames from 'https://cdn.skypack.dev/classnames';
+
+let NotifyOnce__workDone = false;
+
+function NotifyOnce({ children }) {
+  const [visible, setVisible] = useState(false);
+
+  if(NotifyOnce__workDone){
+    setTimeout(function() {
+      setVisible = true;
+    }, 1000);
+
+    setTimeout(function() {
+      setVisible = false;
+    }, 3000);
+
+    NotifyOnce__workDone = true;
+  }
+  return (
+    <>
+      <div className={classNames(
+        "fixed transition-all right-[10px]",
+        {
+          "top-[-60px]": !visible,
+        },
+        {
+          "top-[10px]": visible,
+        }
+      )}
+      >
+        {children}
+      </div>
+    </>
+  )
+}
+
+function Alert({ color: _color, children }) {
   const color = _color ?? "white";
   return (
     <div className="alert alert-success shadow-lg">
@@ -15,9 +52,14 @@ function Alert({color: _color, children}) {
 function App() {
   return (
     <>
-      <Alert>Hello</Alert>
-      <hr className="my-4" />
-      <Alert color="pink-500">Bye</Alert>
+      <NotifyOnce>
+        <Alert>안녕하세요</Alert>
+      </NotifyOnce>
+      <div>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas facere nulla sint
+        voluptates perspiciatis est doloremque incidunt exercitationem, unde amet quasi corporis
+        aperiam nihil excepturi, quaerat nesciunt. Fugiat, reiciendis modi!
+      </div>
     </>
   );
 }
