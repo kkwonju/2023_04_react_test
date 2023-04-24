@@ -43,13 +43,15 @@ export default function RefEx() {
       <hr />
 
       <h1>기록된 숫자 v1</h1>
-      {recordedNos.join(",")}
-
-      <hr />
-      <button className="btnn" onClick={() => removeNo(0)}>Index 0 Del</button>
-      <button className="btnn" onClick={() => removeNo(1)}>Index 1 Del</button>
-      <button className="btnn" onClick={() => removeNo(2)}>Index 2 Del</button>
-      <button className="btnn" onClick={() => removeNo(3)}>Index 3 Del</button>
+      <ul>
+        {recordedNos.map((el, index) => (
+          <li key={index}>
+            <span style={{ width: 50, display: "inline-block"}}>{el}</span>
+            <span style={{ width: 50, display: "inline-block"}}>{index}</span>
+            <button className="btnn" onClick={() => removeNo(index)}>삭제</button>
+          </li>
+        ))}
+      </ul>
     </>
   );
 }
