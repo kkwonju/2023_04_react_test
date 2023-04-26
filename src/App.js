@@ -5,20 +5,21 @@ let AppCallCount = 0;
 function App() {
   const inputNameRef = useRef(null);
   const inputAgeRef = useRef(null);
-
-  console.log("시작");
+  const [no, setNo] = useState(0);
 
   useEffect(() => {
-    AppCallCount++;
-    console.log(`AppCallCount : ${AppCallCount}번`);
+    inputNameRef.current.focus();
   }, [])
 
-  console.log("끝");
-
-  const [no, setNo] = useState(0);
   return (
     <>
-      <button onClick={() => setNo(no + 1)}>증가 : {no}</button>
+      <input ref={inputNameRef} type="text" placeholder="이름" />
+      <hr />
+      <input ref={inputAgeRef} type="number" placeholder="나이" />
+      <hr />
+      <button onClick={() => { setNo(no + 1); inputAgeRef.current.focus(); }}>
+        증가 : {no}
+      </button>
     </>
   );
 }
