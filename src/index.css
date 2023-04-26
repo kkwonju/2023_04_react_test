@@ -61,3 +61,53 @@ h1 {
     color: #333;
     text-underline-position: under;
     line-height: 1.3; / 이 폰트 특성상 */
+
+/* 넷플릭스 */
+body {
+    margin: 0;
+}
+
+.Ns > img {
+    width: 156px;
+    top: 20px;
+    left: 50px;
+    position: absolute;
+}
+
+.Ns {
+   height: 100%;
+   background: url(https://assets.nflxext.com/ffe/siteui/vlv3/9737377e-a430-4d13-ad6c-874c54837c49/945eec79-6856-4d95-b4c6-83ff5292f33d/KR-ko-20220111-popsignuptwoweeks-perspective_alpha_website_large.jpg); 
+}
+
+.Ns::before {
+    content: '';
+    background: linear-gradient(to right, black, transparent);
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+h1 {
+    color: white;
+    font-size: 4em;
+    position: absolute;
+    top: 200px;
+    left: 100px;
+    font-family: sans-serif;
+}
+
+.Ns > p {
+    color: white;
+    font-size: 2em;
+    position: absolute;
+    top: 350px;
+    left: 100px;
+    font-family: sans-serif;
+    font-family: sans-serif;
+}
+
+.Ns > p:nth-child(4) {
+    font-size: 1.6em;
+    top: 420px;
+}

@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import classNames from 'https://cdn.skypack.dev/classnames';
 
-let NotifyOnce__workDone = false;
-
 function NotifyOnce({ children }) {
   const [visible, setVisible] = useState(false);
+  const [wordDone, setWorkDone] = useState(false);
 
-  if(NotifyOnce__workDone){
+  if(wordDone == false){
     setTimeout(function() {
-      setVisible = true;
+      setVisible(true);
     }, 1000);
 
     setTimeout(function() {
-      setVisible = false;
+      setVisible(false);
     }, 3000);
 
-    NotifyOnce__workDone = true;
+    setWorkDone(true);
   }
   return (
     <>
