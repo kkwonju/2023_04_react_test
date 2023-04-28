@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 // 
 function isPrimeNumber(no) {
@@ -34,14 +34,19 @@ function getPrimeNumbersCount(max) {
 function App() {
   const [inputedNo, setInputedNo] = useState(0);
   const [no, setNo] = useState(0);
-  
+
+  const primeNumbers = useMemo(
+    () => getPrimeNumbersCount(inputedNo),
+    [inputedNo]
+    );
+
   const [primeNumbersCount, setPrimeNumbersCount] = useState(0);
 
   useEffect(() => {
     const primeNumbersCount = getPrimeNumbersCount(inputedNo);
     setPrimeNumbersCount(primeNumbersCount);
   }, [inputedNo]);
-  
+
   // const primeNumbersCount = getPrimeNumbersCount(inputedNo);
 
   const onSubmit = (e) => {
@@ -67,7 +72,7 @@ function App() {
 
   return (
     <>
-    <button onClick={() => setNo(no + 1)}> 번호 : {no} </button>
+      <button onClick={() => setNo(no + 1)}> 번호 : {no} </button>
       <hr />
       <form onSubmit={onSubmit}>
         <input
