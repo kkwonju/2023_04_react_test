@@ -47,6 +47,8 @@ function PrimeNosCount({ max }) {
   );
 };
 
+const MemoizedPrimeNosCount = React.memo(PrimeNosCount);
+
 let AppCallCount = 0;
 
 // App
@@ -58,13 +60,13 @@ function App() {
 
   return (
     <>
-      <PrimeNosCount max={100} />
+      <MemoizedPrimeNosCount max={100} />
       <hr />
-      <PrimeNosCount max={200} />
+      <MemoizedPrimeNosCount max={200} />
       <hr />
-      <PrimeNosCount max={300} />
+      <MemoizedPrimeNosCount max={300} />
       <hr />
-      <PrimeNosCount max={1000000} />
+      <MemoizedPrimeNosCount max={1000000} />
       <button onClick={() => setNo(no + 1)}>버튼 : {no}</button>
     </>
   );
