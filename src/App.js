@@ -30,14 +30,13 @@ function getPrimeNumbersCount(max) {
   return getPrimeNumbers(max).length;
 }
 
+let PNCCallCount = 0;
 
 function PrimeNosCount({ max }) {
-  const [count, setCount] = useState(0);
+  PNCCallCount++;
+  console.log(`PNCCallCount : ${PNCCallCount}`);
 
-  useEffect(() => {
-    const count = getPrimeNumbersCount(max);
-    setCount(count);
-  }, [max]);
+  const count = useMemo(() => getPrimeNumbersCount(max), [max]); 
 
   return (
     <>
