@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 
-// 
+// 소수 구하기
 function isPrimeNumber(no) {
   for (let i = 2; i < no; i++) {
     if (i * i > no) {
@@ -30,64 +30,45 @@ function getPrimeNumbersCount(max) {
   return getPrimeNumbers(max).length;
 }
 
-// App
-function App() {
-  const [inputedNo, setInputedNo] = useState(0);
-  const [no, setNo] = useState(0);
 
-  const primeNumbers = useMemo(
-    () => getPrimeNumbersCount(inputedNo),
-    [inputedNo]
-    );
-
-  const [primeNumbersCount, setPrimeNumbersCount] = useState(0);
+function PrimeNosCount({ max }) {
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const primeNumbersCount = getPrimeNumbersCount(inputedNo);
-    setPrimeNumbersCount(primeNumbersCount);
-  }, [inputedNo]);
-
-  // const primeNumbersCount = getPrimeNumbersCount(inputedNo);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-
-    form.number.value = form.number.value.trim();
-
-    if (form.number.value.length == 0) {
-      alert('숫자를 입력하세요!');
-      form.number.focus();
-
-      return;
-    }
-
-    const number = form.number.valueAsNumber;
-    form.number.focus();
-
-    setPrimeNumbersCount(primeNumbersCount);
-    setInputedNo(number);
-  }
+    const count = getPrimeNumbersCount(max);
+    setCount(count);
+  }, [max]);
 
   return (
     <>
-      <button onClick={() => setNo(no + 1)}> 번호 : {no} </button>
-      <hr />
-      <form onSubmit={onSubmit}>
-        <input
-          type="number"
-          name="number"
-          placeholder="숫자를 입력해주세요"
-          defaultValue="0"
-          className="input input-bordered" />
-        <button type="submit" className="btn btn-outline">확인</button>
-        <hr />
-        <div>MAX : {inputedNo}</div>
-        <div>소수의 갯수 : {primeNumbersCount}</div>
-      </form>
+      <div style={{ border: '10px solid black ', padding: 50 }}>
+        {max} 사이에 존재하는 소스의 개수는 {count}개이다.
+      </div>
     </>
   );
-}
+};
+
+let AppCallCount = 0;
+
+// App
+function App() {
+  AppCallCount++;
+  console.log(`AppCallCount : ${AppCallCount}`);
+
+  const [no, setNo] = useState(0);
+
+  return (
+    <>
+      <PrimeNosCount max={100} />
+      <hr />
+      <PrimeNosCount max={200} />
+      <hr />
+      <PrimeNosCount max={300} />
+      <hr />
+      <PrimeNosCount max={1000000} />
+      <button onClick={() => setNo(no + 1)}>버튼 : {no}</button>
+    </>
+  );
+};
 
 export default App;
