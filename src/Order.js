@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 
 // 하위 컴포넌트
 function OrderMainFood({ mainFoodCount, setMainFoodCount }) {
@@ -17,6 +17,8 @@ function OrderMainFood({ mainFoodCount, setMainFoodCount }) {
   );
 };
 
+const MemoizedMainFood = React.memo(OrderMainFood);
+
 // 하위 컴포넌트
 function OrderOptions({  options, selectedCount, optionCheckeds, toggleAllChecked, toggleOptionCheck, btnAllChecked }) {
   return(
@@ -30,7 +32,6 @@ function OrderOptions({  options, selectedCount, optionCheckeds, toggleAllChecke
         onClick={toggleAllChecked}>
         {btnAllChecked ? "[v]" : "[]"} 전체선택
       </span>
-
       <ul>
         {options.map((option, index) => (
           <li style={{ userSelect: 'none', cursor: 'pointer' }} key={option} onClick={() => toggleOptionCheck(index)}>
@@ -42,6 +43,8 @@ function OrderOptions({  options, selectedCount, optionCheckeds, toggleAllChecke
     </>
   )
 }
+
+const MemoizedOrderoptions = React.memo(OrderOptions);
 
 // 메인 함수 관리자 , 상위 컴포넌트
 export default function Order() {
@@ -65,12 +68,12 @@ export default function Order() {
     new Array(options.length).fill(false)
   );
 
-  const toggleOptionCheck = (index) => {
+  const toggleOptionCheck = useCallback((index) => {
     const newOptionCheckeds = optionCheckeds.map((el, _index) => _index == index ? !el : el);
     setOptionCheckeds(newOptionCheckeds);
-  }
+  }, [optionCheckeds]);
 
-  const toggleAllChecked = () => {
+  const toggleAllChecked = useCallback(() => {
     if (btnAllChecked) {
       // 전부 체크 해제
       const newOptionCheckeds = optionCheckeds.map((el) => false);
@@ -80,7 +83,7 @@ export default function Order() {
       const newOptionCheckeds = optionCheckeds.map((el) => true);
       setOptionCheckeds(newOptionCheckeds);
     }
-  }
+  }, [optionCheckeds]);
 
   const btnAllChecked = useMemo(
     () => optionCheckeds.every((el) => el),
@@ -93,12 +96,21 @@ export default function Order() {
     <>
       <h2 style={{ fontSize: "2em" }}>음식주문</h2>
 
-      <OrderMainFood
+      <MemoizedMainFood
         mainFoodCount={mainFoodCount}
         setMainFoodCount={setMainFoodCount}
       />
 
-      <OrderOptions 
+      <MemoizedOrderoptions 
+        options={options}
+        btnAllChecked={btnAllChecked}
+        selectedCount={selectedCount}
+        optionCheckeds={optionCheckeds}
+        toggleAllChecked={toggleAllChecked}
+        toggleOptionCheck={toggleOptionCheck}
+      />
+
+      <MemoizedOrderoptions 
         options={options}
         btnAllChecked={btnAllChecked}
         selectedCount={selectedCount}
