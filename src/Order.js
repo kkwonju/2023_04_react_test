@@ -21,13 +21,35 @@ export default function Order() {
     const newOptionCheckeds = optionCheckeds.map((el, _index) => _index == index ? !el : el);
     setOptionCheckeds(newOptionCheckeds);
   }
+  const btnAllChecked = optionCheckeds.every((el) => el);
+
+  const toggleAllChecked = () => {
+    if (btnAllChecked){
+      // 전부 체크를 해제해야함
+      const newOptionCheckeds = optionCheckeds.map((el) => false);
+      setOptionCheckeds(newOptionCheckeds);
+    } else {
+      // 전부 체크
+      const newOptionCheckeds = optionCheckeds.map((el) => true);
+      setOptionCheckeds(newOptionCheckeds);
+    }
+  }
 
   return (
     <>
-      <h1>음식 주문</h1>
+      <h2 style={{ fontSize: "1.5em" }}>음식주문</h2>
+
+      <h2 style={{ fontSize: "1.3em" }}>옵션</h2>
+
+      <span
+        style={{ userSelect: 'none', cursor: 'pointer' }}
+        onClick={toggleAllChecked}>
+        {btnAllChecked ? "[v]" : "[]"} 전체선택
+      </span>
+
       <ul>
         {options.map((option, index) => (
-          <li style={{ userSelect: 'none' , cursor: 'pointer'}} key={option} onClick={() => toggleOptionCheck(index)}>
+          <li style={{ userSelect: 'none', cursor: 'pointer' }} key={option} onClick={() => toggleOptionCheck(index)}>
             {optionCheckeds[index] ? "[v] " : "[] "}
             {option}
           </li>
