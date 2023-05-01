@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 export default function Order() {
+  const [mainFoodCount, setMainFoodCount] = useState(1);
   const options = [
     "사이다 1.5",
     "밀키스 1.5",
@@ -11,7 +12,7 @@ export default function Order() {
     "카스 500",
     "하이네켄 500",
   ];
-  
+
   // [false, false, false, false, false, false]
   // [,,,,,,].fill(false) 
   // new Array(6).fill(false)
@@ -24,10 +25,15 @@ export default function Order() {
     const newOptionCheckeds = optionCheckeds.map((el, _index) => _index == index ? !el : el);
     setOptionCheckeds(newOptionCheckeds);
   }
-  const btnAllChecked = optionCheckeds.every((el) => el);
+  const btnAllChecked = useMemo(
+    () => optionCheckeds.every((el) => el),
+    [optionCheckeds]);
+  const selectedCount = useMemo(
+    () => optionCheckeds.filter((el) => el).length,
+    [optionCheckeds]);
 
   const toggleAllChecked = () => {
-    if (btnAllChecked){
+    if (btnAllChecked) {
       // 전부 체크 해제
       const newOptionCheckeds = optionCheckeds.map((el) => false);
       setOptionCheckeds(newOptionCheckeds);
@@ -38,11 +44,22 @@ export default function Order() {
     }
   }
 
+
   return (
     <>
-      <h2 style={{ fontSize: "1.5em" }}>음식주문</h2>
+      <h2 style={{ fontSize: "2em" }}>음식주문</h2>
 
-      <h2 style={{ fontSize: "1.3em" }}>옵션</h2>
+      <h2 style={{ fontSize: "1.5em" }}>메인 (수량 : {mainFoodCount})</h2>
+      <div>
+        <button className="btn" onClick={() => setMainFoodCount(mainFoodCount + 1)}>
+          증가
+        </button>
+        <button className="btn" onClick={() => setMainFoodCount(mainFoodCount == 1 ? 1 : mainFoodCount - 1)}>
+          감소
+        </button>
+      </div>
+
+      <h2 style={{ fontSize: "1.5em" }}>옵션 ({selectedCount} / {options.length}) </h2>
 
       <span
         style={{ userSelect: 'none', cursor: 'pointer' }}
