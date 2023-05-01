@@ -1,5 +1,49 @@
 import React, { useState, useMemo } from "react";
 
+// 하위 컴포넌트
+function OrderMainFood({ mainFoodCount, setMainFoodCount }) {
+  return (
+    <>
+      <h2 style={{ fontSize: "1.5em" }}>메인 (수량 : {mainFoodCount})</h2>
+      <div>
+        <button className="btn" onClick={() => setMainFoodCount(mainFoodCount + 1)}>
+          증가
+        </button>
+        <button className="btn" onClick={() => setMainFoodCount(mainFoodCount == 1 ? 1 : mainFoodCount - 1)}>
+          감소
+        </button>
+      </div>
+    </>
+  );
+};
+
+// 하위 컴포넌트
+function OrderOptions({  options, selectedCount, optionCheckeds, toggleAllChecked, toggleOptionCheck, btnAllChecked }) {
+  return(
+    <>
+      <h2 style={{ fontSize: "1.5em" }}>
+        옵션 ({selectedCount} / {options.length})
+      </h2>
+
+      <span
+        style={{ userSelect: 'none', cursor: 'pointer' }}
+        onClick={toggleAllChecked}>
+        {btnAllChecked ? "[v]" : "[]"} 전체선택
+      </span>
+
+      <ul>
+        {options.map((option, index) => (
+          <li style={{ userSelect: 'none', cursor: 'pointer' }} key={option} onClick={() => toggleOptionCheck(index)}>
+            {optionCheckeds[index] ? "[v] " : "[] "}
+            {option}
+          </li>
+        ))}
+      </ul>
+    </>
+  )
+}
+
+// 메인 함수 관리자 , 상위 컴포넌트
 export default function Order() {
   const [mainFoodCount, setMainFoodCount] = useState(1);
   const options = [
@@ -25,12 +69,6 @@ export default function Order() {
     const newOptionCheckeds = optionCheckeds.map((el, _index) => _index == index ? !el : el);
     setOptionCheckeds(newOptionCheckeds);
   }
-  const btnAllChecked = useMemo(
-    () => optionCheckeds.every((el) => el),
-    [optionCheckeds]);
-  const selectedCount = useMemo(
-    () => optionCheckeds.filter((el) => el).length,
-    [optionCheckeds]);
 
   const toggleAllChecked = () => {
     if (btnAllChecked) {
@@ -44,37 +82,30 @@ export default function Order() {
     }
   }
 
+  const btnAllChecked = useMemo(
+    () => optionCheckeds.every((el) => el),
+    [optionCheckeds]);
+  const selectedCount = useMemo(
+    () => optionCheckeds.filter((el) => el).length,
+    [optionCheckeds]);
 
   return (
     <>
       <h2 style={{ fontSize: "2em" }}>음식주문</h2>
 
-      <h2 style={{ fontSize: "1.5em" }}>메인 (수량 : {mainFoodCount})</h2>
-      <div>
-        <button className="btn" onClick={() => setMainFoodCount(mainFoodCount + 1)}>
-          증가
-        </button>
-        <button className="btn" onClick={() => setMainFoodCount(mainFoodCount == 1 ? 1 : mainFoodCount - 1)}>
-          감소
-        </button>
-      </div>
+      <OrderMainFood
+        mainFoodCount={mainFoodCount}
+        setMainFoodCount={setMainFoodCount}
+      />
 
-      <h2 style={{ fontSize: "1.5em" }}>옵션 ({selectedCount} / {options.length}) </h2>
-
-      <span
-        style={{ userSelect: 'none', cursor: 'pointer' }}
-        onClick={toggleAllChecked}>
-        {btnAllChecked ? "[v]" : "[]"} 전체선택
-      </span>
-
-      <ul>
-        {options.map((option, index) => (
-          <li style={{ userSelect: 'none', cursor: 'pointer' }} key={option} onClick={() => toggleOptionCheck(index)}>
-            {optionCheckeds[index] ? "[v] " : "[] "}
-            {option}
-          </li>
-        ))}
-      </ul>
+      <OrderOptions 
+        options={options}
+        btnAllChecked={btnAllChecked}
+        selectedCount={selectedCount}
+        optionCheckeds={optionCheckeds}
+        toggleAllChecked={toggleAllChecked}
+        toggleOptionCheck={toggleOptionCheck}
+      />
     </>
   );
 };
