@@ -7,15 +7,18 @@ export default function Order() {
     "코카콜라 1.5",
     "마운틴 듀 750",
     "웰치스 750",
+    "닥터페퍼 350",
+    "카스 500",
+    "하이네켄 500",
   ];
+  
+  // [false, false, false, false, false, false]
+  // [,,,,,,].fill(false) 
+  // new Array(6).fill(false)
 
-  const [optionCheckeds, setOptionCheckeds] = useState([
-    false,
-    true,
-    false,
-    false,
-    true,
-  ]);
+  const [optionCheckeds, setOptionCheckeds] = useState(
+    new Array(options.length).fill(false)
+  );
 
   const toggleOptionCheck = (index) => {
     const newOptionCheckeds = optionCheckeds.map((el, _index) => _index == index ? !el : el);
@@ -25,7 +28,7 @@ export default function Order() {
 
   const toggleAllChecked = () => {
     if (btnAllChecked){
-      // 전부 체크를 해제해야함
+      // 전부 체크 해제
       const newOptionCheckeds = optionCheckeds.map((el) => false);
       setOptionCheckeds(newOptionCheckeds);
     } else {
