@@ -20,23 +20,28 @@ function OrderMainFood({ mainFoodCount, setMainFoodCount }) {
 const MemoizedMainFood = React.memo(OrderMainFood);
 
 // 하위 컴포넌트
-function OrderOptions({  options, selectedCount, optionCheckeds, toggleAllChecked, toggleOptionCheck, btnAllChecked }) {
-  return(
+function OrderOptions({ options, selectedCount, optionCheckeds, toggleAllChecked, toggleOptionCheck, btnAllChecked }) {
+  return (
     <>
       <h2 style={{ fontSize: "1.5em" }}>
         옵션 ({selectedCount} / {options.length})
       </h2>
 
-      <span
-        style={{ userSelect: 'none', cursor: 'pointer' }}
-        onClick={toggleAllChecked}>
-        {btnAllChecked ? "[v]" : "[]"} 전체선택
-      </span>
+      <label >
+        <input type="checkbox" checked={btnAllChecked} onChange={toggleAllChecked} />
+        전체선택
+      </label>
+
       <ul>
         {options.map((option, index) => (
-          <li style={{ userSelect: 'none', cursor: 'pointer' }} key={option} onClick={() => toggleOptionCheck(index)}>
-            {optionCheckeds[index] ? "[v] " : "[] "}
-            {option}
+          <li style={{ userSelect: 'none', cursor: 'pointer' }} key={option}>
+            <label htmlFor="">
+              <input
+                type="checkbox"
+                checked={optionCheckeds[index]}
+                onChange={() => toggleOptionCheck(index)} />
+              {option}
+            </label>
           </li>
         ))}
       </ul>
@@ -45,6 +50,24 @@ function OrderOptions({  options, selectedCount, optionCheckeds, toggleAllChecke
 }
 
 const MemoizedOrderoptions = React.memo(OrderOptions);
+
+function OrderDelivery({ deliveryType, setDeliveryType }) {
+  return (
+    <>
+      <h2>배달옵션</h2>
+      <label>
+        <input type="radio" name="delivery-type" checked={deliveryType == '직접수령'} onChange={() => setDeliveryType('직접수령')} />
+      </label>
+      직접수령
+      <label>
+        <input type="radio" name="delivery-type" checked={deliveryType == '배달'} onChange={() => setDeliveryType('배달')} />
+      </label>
+      배달
+    </>
+  )
+}
+
+const MemoizedOrderDelivery = React.memo(OrderDelivery);
 
 // 메인 함수 관리자 , 상위 컴포넌트
 export default function Order() {
@@ -92,6 +115,8 @@ export default function Order() {
     () => optionCheckeds.filter((el) => el).length,
     [optionCheckeds]);
 
+  const [deliveryType, setDeliveryType] = useState('직접수령');
+
   return (
     <>
       <h2 style={{ fontSize: "2em" }}>음식주문</h2>
@@ -101,7 +126,7 @@ export default function Order() {
         setMainFoodCount={setMainFoodCount}
       />
 
-      <MemoizedOrderoptions 
+      <MemoizedOrderoptions
         options={options}
         btnAllChecked={btnAllChecked}
         selectedCount={selectedCount}
@@ -110,13 +135,18 @@ export default function Order() {
         toggleOptionCheck={toggleOptionCheck}
       />
 
-      <MemoizedOrderoptions 
+      <MemoizedOrderoptions
         options={options}
         btnAllChecked={btnAllChecked}
         selectedCount={selectedCount}
         optionCheckeds={optionCheckeds}
         toggleAllChecked={toggleAllChecked}
         toggleOptionCheck={toggleOptionCheck}
+      />
+
+      <MemoizedOrderDelivery 
+        deliveryType={deliveryType}
+        setDeliveryType={setDeliveryType}
       />
     </>
   );
