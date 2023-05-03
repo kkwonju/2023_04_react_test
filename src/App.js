@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState , useRef } from "react";
 
 function App() {
-  const [lastTodoId, setLastTodoId] = useState(0);
   const [todos, setTodos] = useState([]);
+  const lastTodoIdRef = useRef(0);
 
   const addTodo = (newContent) => {
-    const id = lastTodoId + 1;
-    setLastTodoId(id);
+    const id = ++lastTodoIdRef.current;
 
     const newTodo = {
       id,
