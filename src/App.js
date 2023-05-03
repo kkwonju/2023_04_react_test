@@ -1,6 +1,43 @@
-import React, { useState , useRef } from "react";
+import React, { useState, useRef } from "react";
 
-function App() {
+// UI에 가까운 것들
+function TodoApp({
+  addTodo,
+  removeTodo,
+  modifyTodo,
+  todos }) {
+  const onBtnAddTodoClick = () => {
+    addTodo("안녕");
+  };
+
+  const onBtnRemoveTodoClick = () => {
+    removeTodo(1);
+  }
+
+  const onBtnModifyTodoClick = () => {
+    modifyTodo(1, "ㅋㅋㅋ");
+  }
+  return (
+    <>
+      <button onClick={onBtnAddTodoClick}>추가</button>
+      <button onClick={onBtnModifyTodoClick}>수정</button>
+      <button onClick={onBtnRemoveTodoClick}>삭제</button>
+      <hr />
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index}>
+            {todo.id}&nbsp;
+            {todo.regDate}&nbsp;
+            {todo.content}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+};
+
+// Hook으로 만들기
+function useTodosState() {
   const [todos, setTodos] = useState([]);
   const lastTodoIdRef = useRef(0);
 
@@ -23,37 +60,33 @@ function App() {
   }
 
   const modifyTodo = (index, newContent) => {
-    const newTodos = todos.map((todo, _index) => _index != index ? todo : {...todo, content: newContent});
+    const newTodos = todos.map((todo, _index) => _index != index ? todo : { ...todo, content: newContent });
     setTodos(newTodos);
   }
-
-  const onBtnAddTodoClick = () => {
-    addTodo("안녕");
-  };
-
-  const onBtnRemoveTodoClick = () => {
-    removeTodo(1);
+  return {
+    todos,
+    addTodo,
+    removeTodo,
+    modifyTodo,
   }
+};
 
-  const onBtnModifyTodoClick = () => {
-    modifyTodo(1, "ㅋㅋㅋ");
+function App() {
+  const {
+    todos,
+    addTodo,
+    removeTodo,
+    modifyTodo,
   }
-
+    = useTodosState();
   return (
     <>
-      <button onClick={onBtnAddTodoClick}>추가</button>
-      <button onClick={onBtnRemoveTodoClick}>삭제</button>
-      <button onClick={onBtnModifyTodoClick}>수정</button>
-      <hr />
-      <ul>
-        {todos.map((todo, index) => (
-          <li key={index}>
-            {todo.id}&nbsp;
-            {todo.regDate}&nbsp;
-            {todo.content}
-          </li>
-        ))}
-      </ul>
+      <TodoApp
+        addTodo={addTodo}
+        removeTodo={removeTodo}
+        modifyTodo={modifyTodo}
+        todos={todos}
+      />
     </>
   );
 };
