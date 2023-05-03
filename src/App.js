@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
 function App() {
+  const [lastTodoId, setLastTodoId] = useState(0);
   const [todos, setTodos] = useState([]);
 
   const addTodo = (newContent) => {
+    const id = lastTodoId + 1;
+    setLastTodoId(id);
+
     const newTodo = {
-      id: 1,
+      id,
       content: newContent,
       regDate: "2023-05-03 20:07:50"
     }
@@ -25,10 +29,8 @@ function App() {
       <ul>
         {todos.map((todo, index) => (
           <li key={index}>
-            {todo.id}
-            <br />
-            {todo.regDate}
-            <br />
+            {todo.id}&nbsp;
+            {todo.regDate}&nbsp;
             {todo.content}
           </li>
         ))}
