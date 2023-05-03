@@ -27,7 +27,7 @@ h1 {
     font-weight: 900;
 }
 
-button {
+/* button {
     background-color: #7da7e3;
     position: relative;
     border: none;
@@ -47,7 +47,7 @@ button:hover {
 button:active {
     scale: 0.9;
     z-index: 10;
-}
+} */
 
 .text-pink {
     color: rgb(223, 135, 149);

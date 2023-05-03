@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { Button } from "@mui/material";
 
 // UI에 가까운 것들
 function TodoApp({ todosState }) {
@@ -73,6 +74,7 @@ function App() {
   return (
     <>
       <TodoApp todosState={todosState} />
+      <Button variant="contained">Contained</Button>
     </>
   );
 };
