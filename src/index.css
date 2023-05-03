@@ -27,7 +27,7 @@ h1 {
     font-weight: 900;
 }
 
-.btnn {
+button {
     background-color: #7da7e3;
     position: relative;
     border: none;
@@ -39,13 +39,13 @@ h1 {
     transition: 0.25s;
 }
 
-.btnn:hover {
+button:hover {
     scale: 1.2;
     z-index: 10;
 }
 
-.btnn:active {
-    scale: 1.4;
+button:active {
+    scale: 0.9;
     z-index: 10;
 }
 

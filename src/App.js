@@ -3,49 +3,36 @@ import React, { useState } from "react";
 function App() {
   const [todos, setTodos] = useState([]);
 
-  /** 실제 실행될 기능 */
-  const addTodo = (newTodo) => {
+  const addTodo = (newContent) => {
+    const newTodo = {
+      id: 1,
+      content: newContent,
+      regDate: "2023-05-03 20:07:50"
+    }
+
     const newTodos = [...todos, newTodo];
     setTodos(newTodos);
-  }
+  };
 
-  const removeTodo = (index) => {
-    const newTodos = todos.filter((_, _index) => _index != index);
-    setTodos(newTodos);
-  }
-
-  const modifyTodo = (index, newTodo) => {
-    const newTodos = todos.map((todo, _index) => _index != index ? todo : newTodo);
-    setTodos(newTodos);
-  }
-
-  /** 클릭 시 실행 */
-  const onAddBtnClick = () => {
-    addTodo(todos.length + 1);
-  }
-
-  const onRemoveBtnClick = () => {
-    removeTodo(0);
-  }
-
-  const onEditBtnClick = () => {
-    modifyTodo(1, "안녕");
-  }
-
-  // const onClick = () => {
-  //   // const newTodos = [...todos, todos.length + 1];
-  //   // setTodos(newTodos);
-  //   addTodo(todos.length + 1);
-  // }
+  const onBtnAddTodoClick = () => {
+    addTodo("안녕");
+  };
 
   return (
     <>
-      <div>
-        {JSON.stringify(todos)}
-      </div>
-      <button onClick={onAddBtnClick}>추가</button>
-      <button onClick={onRemoveBtnClick}>제거</button>
-      <button onClick={onEditBtnClick}>수정</button>
+      <button onClick={onBtnAddTodoClick}>추가</button>
+      <hr />
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index}>
+            {todo.id}
+            <br />
+            {todo.regDate}
+            <br />
+            {todo.content}
+          </li>
+        ))}
+      </ul>
     </>
   );
 };
