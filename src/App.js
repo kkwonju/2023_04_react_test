@@ -2,18 +2,16 @@ import React, { useState, useRef } from "react";
 
 // UI에 가까운 것들
 function TodoApp({ todosState }) {
-  const { addTodo, removeTodo, modifyTodo, todos } = todosState;
-  
   const onBtnAddTodoClick = () => {
-    addTodo("안녕");
+    todosState.addTodo("안녕");
   };
 
   const onBtnRemoveTodoClick = () => {
-    removeTodo(1);
+    todosState.removeTodo(1);
   }
 
   const onBtnModifyTodoClick = () => {
-    modifyTodo(1, "ㅋㅋㅋ");
+    todosState.modifyTodo(1, "ㅋㅋㅋ");
   }
   return (
     <>
@@ -22,7 +20,7 @@ function TodoApp({ todosState }) {
       <button onClick={onBtnRemoveTodoClick}>삭제</button>
       <hr />
       <ul>
-        {todos.map((todo, index) => (
+        {todosState.todos.map((todo, index) => (
           <li key={index}>
             {todo.id}&nbsp;
             {todo.regDate}&nbsp;
