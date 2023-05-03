@@ -1,11 +1,9 @@
 import React, { useState, useRef } from "react";
 
 // UI에 가까운 것들
-function TodoApp({
-  addTodo,
-  removeTodo,
-  modifyTodo,
-  todos }) {
+function TodoApp({ todosState }) {
+  const { addTodo, removeTodo, modifyTodo, todos } = todosState;
+  
   const onBtnAddTodoClick = () => {
     addTodo("안녕");
   };
@@ -36,7 +34,7 @@ function TodoApp({
   );
 };
 
-// Hook으로 만들기
+// 커스텀 Hook 만들기
 function useTodosState() {
   const [todos, setTodos] = useState([]);
   const lastTodoIdRef = useRef(0);
@@ -72,21 +70,11 @@ function useTodosState() {
 };
 
 function App() {
-  const {
-    todos,
-    addTodo,
-    removeTodo,
-    modifyTodo,
-  }
-    = useTodosState();
+  const todosState = useTodosState();
+
   return (
     <>
-      <TodoApp
-        addTodo={addTodo}
-        removeTodo={removeTodo}
-        modifyTodo={modifyTodo}
-        todos={todos}
-      />
+      <TodoApp todosState={todosState} />
     </>
   );
 };
