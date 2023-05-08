@@ -1,40 +1,52 @@
 import React, { useState, useRef } from "react";
-import { Button } from "@mui/material";
 
-// UI에 가까운 것들
-function TodoApp({ todosState }) {
-  const onBtnAddTodoClick = () => {
-    todosState.addTodo("안녕");
+function NewTodoForm({ todosState }) {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    
+    const form = e.target;
+    
+    form.content.value = form.content.value.trim();
+
+    if(form.content.value.length == 0){
+      alert("뭐라도 입력해..");
+      form.content.focus();
+      return;
+    }
+    todosState.addTodo(form.content.value);
+    form.content.value = "";
+    form.content.focus();
   };
-
-  const onBtnRemoveTodoClick = () => {
-    todosState.removeTodo(1);
-  }
-
-  const onBtnModifyTodoClick = () => {
-    todosState.modifyTodo(1, "ㅋㅋㅋ");
-  }
   return (
     <>
-      <button onClick={onBtnAddTodoClick}>추가</button>
-      <button onClick={onBtnModifyTodoClick}>수정</button>
-      <button onClick={onBtnRemoveTodoClick}>삭제</button>
+      <form onSubmit={onSubmit}>
+        <input autoComplete="off" type="text" name="content" placeholder="할 일을 입력하세요"/>
+        <input type="submit" value="추가"/>
+        <input type="reset" value="취소"/>
+      </form>
+    </>
+  )
+}
+
+// 보여주는 역할
+function TodoApp({ todosState }) {
+  return (
+    <>
+      <NewTodoForm todosState={todosState} />
       <hr />
       <ul>
         {todosState.todos.map((todo, index) => (
           <li key={index}>
-            {todo.id}&nbsp;
-            {todo.regDate}&nbsp;
-            {todo.content}
+            {todo.id} {todo.regDate} {todo.content}
           </li>
         ))}
       </ul>
     </>
-  );
-};
+  )
+}
 
-// 커스텀 Hook 만들기
-function useTodosState() {
+//
+function useTodoState() {
   const [todos, setTodos] = useState([]);
   const lastTodoIdRef = useRef(0);
 
@@ -44,37 +56,36 @@ function useTodosState() {
     const newTodo = {
       id,
       content: newContent,
-      regDate: "2023-05-03 20:07:50"
+      regDate: "2023-05-08 19:17:00",
     }
 
     const newTodos = [...todos, newTodo];
     setTodos(newTodos);
   };
 
-  const removeTodo = (index) => {
-    const newTodos = todos.filter((_, _index) => _index != index);
-    setTodos(newTodos);
-  }
-
   const modifyTodo = (index, newContent) => {
-    const newTodos = todos.map((todo, _index) => _index != index ? todo : { ...todo, content: newContent });
+    const newTodos = todos.map((todo, _index) => _index != index ? todo : { ...todo, content: newContent })
     setTodos(newTodos);
-  }
+  };
+
+  const removeTodo = (index) => {
+    const newTodos = todos.filter((_, _index) => _index != index); // _index와 index가 같지 않은 것들로만 구성
+    setTodos(newTodos);
+  };
+
   return {
     todos,
     addTodo,
-    removeTodo,
     modifyTodo,
-  }
+    removeTodo,
+  };
 };
 
 function App() {
-  const todosState = useTodosState();
-
+  const todosState = useTodoState();
   return (
     <>
       <TodoApp todosState={todosState} />
-      <Button variant="contained">Contained</Button>
     </>
   );
 };
