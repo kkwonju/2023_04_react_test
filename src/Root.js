@@ -1,8 +1,7 @@
-import { ThemeProvider, CssBaseline, createTheme } from "@emotion/react";
+import { ThemeProvider, CssBaseline, createTheme } from "@mui/material";
 import App from "./App";
 
 export default function Root() {
-
     const theme = createTheme({
         typography: {
             fontFamily: ["GmarketSansMedium"]
@@ -21,5 +20,3 @@ export default function Root() {
         </ThemeProvider>
     );
 }
-
-ReactDOM.render(<Root />, document.getElementById("root"));
