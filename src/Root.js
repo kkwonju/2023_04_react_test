@@ -8,7 +8,8 @@ export default function Root() {
         },
         palette: {
             primary: {
-                main: '#f50057',
+                main: '#ff80ab',
+                contrastText: 'white',
             },
         }
     });
