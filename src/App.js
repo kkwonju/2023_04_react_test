@@ -1,5 +1,6 @@
 import { AppBar, Toolbar, Button, TextField, Chip, Box } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
+import classNames from "classnames";
 
 function useTodosState() {
   const [todos, setTodos] = useState([]);
@@ -87,7 +88,7 @@ function App() {
       </form>
       <div className="mt-5 px-4">
         <ul>
-          {todosState.todos.map((todo) => (
+          {todosState.todos.map((todo, index) => (
             <li key={todo.id} className="mt-10">
               <div className="flex gap-2">
                 <Chip
@@ -103,12 +104,34 @@ function App() {
               </div>
               <div className="mt-4 shadow rounded-[20px] flex">
                 <Button variant="text" className="flex-shrink-0 !items-start !rounded-[20px_0_0_20px]">
-                  <span>체크박스</span>
+                  <span
+                    className={classNames(
+                      "flex items-center",
+                      "text-3xl",
+                      {
+                        "text-[color:var(--mui-color-primary-main)]"
+                          : index % 2 == 0,
+                      }
+                      ,
+                      {
+                        "text-[#dfdfdf]"
+                          : index % 2 != 0,
+                      }
+                    )}
+                  >
+                    <i class="fa-solid fa-check"></i>
+                  </span>
                 </Button>
-                <div class="bg-blue-300 whitespace-pre-wrap leading-relaxed hover:text-[color:var(--mui-color-primary-main)] flex-grow">
+                <div class="whitespace-pre-wrap flex items-center leading-relaxed hover:text-[color:var(--mui-color-primary-main)] flex-grow">
                   {todo.content}
                 </div>
-                <div className="bg-pink-500 w-[100px] flex-shrink-0">후</div>
+                <Button 
+                className="flex-shrink-0 !rounded-[0_20px_20px_0]"
+                color="inherit">
+                  <span className=" text-[#dfdfdf] flex items-center text-2xl">
+                    <i class="fa-solid fa-ellipsis-vertical fa-rotate-90"></i>
+                  </span>
+                </Button>
               </div>
             </li>
           ))}
