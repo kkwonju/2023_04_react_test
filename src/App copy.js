@@ -82,11 +82,11 @@ function TodoListItem({ todosState, todo, index }) {
 }
 
 // 리스트( 메뉴 )
-function TodoList({ todosState }) {
-  return (
+// function TodoList({ todosState }) {
+//   return (
     
-  )
-}
+//   )
+// }
 
 // 할 일 App
 function TodoApp({ todosState }) {

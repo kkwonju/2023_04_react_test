@@ -9,7 +9,6 @@ export default function Root() {
         palette: {
             primary: {
                 main: '#ff80ab',
-                contrastText: 'white',
             },
         }
     });
