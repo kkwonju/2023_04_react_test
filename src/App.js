@@ -101,13 +101,14 @@ function App() {
                   className="!pt-1"
                 />
               </div>
-              <div class="mt-4 p-10 shadow rounded-[20px] whitespace-pre-wrap leading-relaxed hover:text-[color:var(--mui-color-primary-main)]">
-                <Box
-                  component="span"
-                  // sx={{ color: "primary.sub" }}
-                >
+              <div className="mt-4 shadow rounded-[20px] flex">
+                <Button variant="text" className="flex-shrink-0 !items-start !rounded-[20px_0_0_20px]">
+                  <span>체크박스</span>
+                </Button>
+                <div class="bg-blue-300 whitespace-pre-wrap leading-relaxed hover:text-[color:var(--mui-color-primary-main)] flex-grow">
                   {todo.content}
-                </Box>
+                </div>
+                <div className="bg-pink-500 w-[100px] flex-shrink-0">후</div>
               </div>
             </li>
           ))}
