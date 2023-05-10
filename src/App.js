@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Button, TextField, Chip } from "@mui/material";
+import { AppBar, Toolbar, Button, TextField, Chip, Box } from "@mui/material";
 import React, { useState, useRef, useEffect } from "react";
 
 function useTodosState() {
@@ -14,7 +14,9 @@ function useTodosState() {
       regDate: dateToStr(new Date()),
     }
 
-    setTodos((todos) => [...todos, newTodo]);
+    // 입력되는 순서
+    // setTodos((todos) => [...todos, newTodo]); // 정 (선입이 위로)
+    setTodos((todos) => [newTodo, ...todos]); // 역 (후입이 위로)
   };
 
   const modifyTodo = (index, newContent) => {
@@ -76,7 +78,7 @@ function App() {
         <TextField
           minRows={3}
           maxRows={10}
-          autoCapitalize="off"
+          autoComplete="off"
           name="content"
           variant="outlined"
           label="할 일 입력"
@@ -91,16 +93,21 @@ function App() {
                 <Chip
                   label={`번호 : ${todo.id}`}
                   variant="outlined"
-                  color="primary"
                 />
                 <Chip
                   label={`날짜 : ${todo.regDate}`}
                   variant="outlined"
-                  color="primary"
+                  color="secondary"
+                  className="!pt-1"
                 />
               </div>
-              <div class="mt-4 p-10 shadow rounded-[20px] whitespace-pre-wrap leading-relaxed">
-                {todo.content}
+              <div class="mt-4 p-10 shadow rounded-[20px] whitespace-pre-wrap leading-relaxed hover:text-[color:var(--mui-color-primary-main)]">
+                <Box
+                  component="span"
+                  // sx={{ color: "primary.sub" }}
+                >
+                  {todo.content}
+                </Box>
               </div>
             </li>
           ))}
