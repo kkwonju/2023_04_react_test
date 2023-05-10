@@ -122,9 +122,11 @@ function App() {
                     <i class="fa-solid fa-check"></i>
                   </span>
                 </Button>
+                <div className="flex-shrink-0 my-3 w-[2px] bg-[#dfdfdf] mr-4"></div>
                 <div class="whitespace-pre-wrap flex items-center leading-relaxed hover:text-[color:var(--mui-color-primary-main)] flex-grow">
                   {todo.content}
                 </div>
+                <div className="flex-shrink-0 my-3 w-[2px] bg-[#dfdfdf]"></div>
                 <Button 
                 className="flex-shrink-0 !rounded-[0_20px_20px_0]"
                 color="inherit">
