@@ -64,7 +64,7 @@ function TodoListItem({ todosState, todo, index }) {
       {todo.id} {todo.regDate}
       {editMode || (
         <>
-           {todo.content}
+          {todo.content}
           &nbsp;
           <button onClick={showEdit}>수정</button>{" "}
         </>

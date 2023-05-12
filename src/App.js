@@ -1,5 +1,19 @@
-import { AppBar, Toolbar, Button, TextField, Chip, Box } from "@mui/material";
-import React, { useState, useRef, useEffect } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  TextField,
+  Chip,
+  Box,
+  Drawer,
+  SwipeableDrawer,
+  List,
+  ListItem,
+  Divider,
+  ListItemButton,
+  Modal,
+} from "@mui/material";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import classNames from "classnames";
 
 function useTodosState() {
@@ -13,7 +27,7 @@ function useTodosState() {
       id,
       content: newContent,
       regDate: dateToStr(new Date()),
-    }
+    };
 
     // 입력되는 순서
     // setTodos((todos) => [...todos, newTodo]); // 정 (선입이 위로)
@@ -21,7 +35,9 @@ function useTodosState() {
   };
 
   const modifyTodo = (index, newContent) => {
-    const newTodos = todos.map((todo, _index) => _index != index ? todo : { ...todo, content: newContent })
+    const newTodos = todos.map((todo, _index) =>
+      _index != index ? todo : { ...todo, content: newContent }
+    );
     setTodos(newTodos);
   };
 
@@ -36,18 +52,163 @@ function useTodosState() {
     modifyTodo,
     removeTodo,
   };
-};
+}
 
-// App
-function App() {
-  const todosState = useTodosState();
+function TodoListItem({ todo, index, todosState, openDrawer }) {
+  return (
+    <>
+      <li key={todo.id} className="mt-10">
+        <div className="flex gap-2">
+          <Chip
+            label={`번호 : ${todo.id}`}
+            variant="outlined"
+            className="!pt-1"
+          />
+          <Chip
+            label={todo.regDate}
+            color="primary"
+            variant="outlined"
+            className="!pt-1"
+          />
+        </div>
+        <div className="mt-4 shadow rounded-[20px] flex">
+          <Button
+            className="flex-shrink-0 !items-start !rounded-[20px_0_0_20px]"
+            color="inherit"
+          >
+            <span
+              className={classNames(
+                "text-4xl",
+                "h-[80px]",
+                "flex items-center",
+                {
+                  "text-[color:var(--mui-color-primary-main)]": index % 2 == 0,
+                },
+                { "text-[#dcdcdc]": index % 2 != 0 }
+              )}
+            >
+              <i className="fa-solid fa-check"></i>
+            </span>
+          </Button>
+          <div className="flex-shrink-0 my-5 w-[2px] bg-[#dcdcdc] mr-4"></div>
+          <div className="whitespace-pre-wrap leading-relaxed hover:text-[color:var(--mui-color-primary-main)] flex-grow flex items-center my-5">
+            {todo.content}
+          </div>
+          <Button
+            onClick={() => openDrawer(todo.id)}
+            className="flex-shrink-0 !items-start !rounded-[0_20px_20px_0]"
+            color="inherit"
+          >
+            <span className="text-[#dcdcdc] text-2xl h-[80px] flex items-center">
+              <i className="fa-solid fa-ellipsis-vertical"></i>
+            </span>
+          </Button>
+        </div>
+      </li>
+    </>
+  );
+}
 
-  useEffect(() => {
-    todosState.addTodo("운동\n스트레칭\n요가\n필라테스\n헬스");
-    todosState.addTodo("공부");
-    todosState.addTodo("독서");
-  }, [])
+function useTodoOptionDrawerStatus() {
+  const [todoId, setTodoId] = useState(null);
+  const opened = useMemo(() => todoId !== null, [todoId]);
+  const close = () => setTodoId(null);
+  const open = (id) => setTodoId(id);
 
+  return {
+    todoId,
+    opened,
+    close,
+    open,
+  };
+}
+
+function TodoOptionDrawer({ todosState, state }) {
+  const [editTOdoModalOpened, setEditTOdoModalOpened] = useState(false);
+
+  const openEditTodoModal = () => {
+    setEditTOdoModalOpened(true);
+  };
+
+  const closeEditTodoModal = () => {
+    setEditTOdoModalOpened(false);
+  };
+
+  const removeTodo = () => {
+    todosState.removeTodoById(state.todoId);
+    state.close();
+  };
+  return (
+    <>
+      <SwipeableDrawer
+        anchor={"bottom"}
+        onOpen={() => {}}
+        open={state.opened}
+        onClose={state.close}
+      >
+        <List className="!py-0">
+          <ListItem className="!pt-6 !p-5">
+            <span className="text-[color:var(--mui-color-primary-main)]">
+              {state.todoId}번
+            </span>
+            <span>&nbsp;</span>
+            <span>할일에 대해서</span>
+          </ListItem>
+          <Divider />
+          <ListItemButton
+            className="!pt-6 !p-5 !items-baseline"
+            onClick={setEditTOdoModalOpened}
+          >
+            <i class="fa-regular fa-pen-to-square" oncli></i>&nbsp;&nbsp;수정
+          </ListItemButton>
+          <ListItemButton
+            className="!pt-6 !p-5 !items-baseline"
+            onClick={removeTodo}
+          >
+            <i class="fa-regular fa-trash-can"></i>
+            &nbsp;&nbsp;삭제
+          </ListItemButton>
+        </List>
+      </SwipeableDrawer>
+
+      <Modal
+        open={editTOdoModalOpened}
+        onClose={closeEditTodoModal}
+        className="flex justify-center items-center"
+      >
+        <div className="bg-white p-10 rounded-[20px]">안녕하세요</div>
+      </Modal>
+    </>
+  );
+}
+
+function TodoList({ todosState }) {
+  const todoOptionDrawerStatus = useTodoOptionDrawerStatus();
+
+  return (
+    <>
+      <TodoOptionDrawer
+        todosState={todosState}
+        state={todoOptionDrawerStatus}
+      />
+      <div className="mt-4 px-4">
+        <ul>
+          {todosState.todos.map((todo, index) => (
+            <TodoListItem
+              key={todo.id}
+              todo={todo}
+              index={index}
+              todosState={todosState}
+              openDrawer={todoOptionDrawerStatus.open}
+            />
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+function NewTodoForm({ todosState }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -56,10 +217,12 @@ function App() {
     form.content.value = form.content.value.trim();
 
     if (form.content.value.length == 0) {
-      alert("뭐라도 입력해..");
+      alert("할일을 입력해주세요.");
       form.content.focus();
+
       return;
     }
+
     todosState.addTodo(form.content.value);
     form.content.value = "";
     form.content.focus();
@@ -67,82 +230,50 @@ function App() {
 
   return (
     <>
-      <AppBar position="fixed">
-        <Toolbar>
-          <div className="flex-1"></div>
-          <span className="font-bod">My Note</span>
-          <div className="flex-1"></div>
-        </Toolbar>
-      </AppBar>
-
-      <form onSubmit={onSubmit} className="flex flex-col mt-5 px-5 gap-2">
+      <form onSubmit={onSubmit} className="flex flex-col mt-4 px-4 gap-2">
         <TextField
           minRows={3}
           maxRows={10}
+          multiline
           autoComplete="off"
           name="content"
+          label="할일을 입력해주세요."
           variant="outlined"
-          label="할 일 입력"
         />
-        <Button variant="contained" type="submit">추가</Button>
+
+        <Button type="submit" variant="contained">
+          추가
+        </Button>
       </form>
-      <div className="mt-5 px-4">
-        <ul>
-          {todosState.todos.map((todo, index) => (
-            <li key={todo.id} className="mt-10">
-              <div className="flex gap-2">
-                <Chip
-                  label={`번호 : ${todo.id}`}
-                  variant="outlined"
-                />
-                <Chip
-                  label={`날짜 : ${todo.regDate}`}
-                  variant="outlined"
-                  color="secondary"
-                  className="!pt-1"
-                />
-              </div>
-              <div className="mt-4 shadow rounded-[20px] flex">
-                <Button variant="text" className="flex-shrink-0 !items-start !rounded-[20px_0_0_20px]">
-                  <span
-                    className={classNames(
-                      "flex items-center",
-                      "text-3xl",
-                      {
-                        "text-[color:var(--mui-color-primary-main)]"
-                          : index % 2 == 0,
-                      }
-                      ,
-                      {
-                        "text-[#dfdfdf]"
-                          : index % 2 != 0,
-                      }
-                    )}
-                  >
-                    <i class="fa-solid fa-check"></i>
-                  </span>
-                </Button>
-                <div className="flex-shrink-0 my-3 w-[2px] bg-[#dfdfdf] mr-4"></div>
-                <div class="whitespace-pre-wrap flex items-center leading-relaxed hover:text-[color:var(--mui-color-primary-main)] flex-grow">
-                  {todo.content}
-                </div>
-                <div className="flex-shrink-0 my-3 w-[2px] bg-[#dfdfdf]"></div>
-                <Button 
-                className="flex-shrink-0 !rounded-[0_20px_20px_0]"
-                color="inherit">
-                  <span className=" text-[#dfdfdf] flex items-center text-2xl">
-                    <i class="fa-solid fa-ellipsis-vertical fa-rotate-90"></i>
-                  </span>
-                </Button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {/* {todosState.todos.length} */}
     </>
   );
-};
+}
+
+// App
+function App() {
+  const todosState = useTodosState();
+
+  useEffect(() => {
+    todosState.addTodo("운동\n스트레칭\n유산소\n상체\n하체볼륨 트레이닝");
+    todosState.addTodo("명상");
+    todosState.addTodo("공부");
+  }, []);
+
+  return (
+    <>
+      <AppBar position="fixed">
+        <Toolbar>
+          <div className="flex-1"></div>
+          <span className="font-bold">HAPPY NOTE</span>
+          <div className="flex-1"></div>
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
+      <NewTodoForm todosState={todosState} />
+      <TodoList todosState={todosState} />
+    </>
+  );
+}
 
 export default App;
 
@@ -150,7 +281,7 @@ export default App;
 function dateToStr(d) {
   const pad = (n) => {
     return n < 10 ? "0" + n : n;
-  }
+  };
 
   return (
     d.getFullYear() +
