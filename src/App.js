@@ -46,11 +46,35 @@ function useTodosState() {
     setTodos(newTodos);
   };
 
+  const removeTodoById = (id) => {
+    const index = findTodoIndexById(id);
+
+    if (index != -1) {
+      removeTodo(index);
+    }
+  };
+
+  const findTodoIndexById = (id) => {
+    return todos.findIndex((todo) => todo.id == id);
+  };
+
+  const findTodoById = (id) => {
+    const index = findTodoIndexById(id);
+
+    if (index == -1) {
+      return null;
+    }
+
+    return todos[index];
+  };
+
   return {
     todos,
     addTodo,
     modifyTodo,
     removeTodo,
+    removeTodoById,
+    findTodoById,
   };
 }
 
@@ -108,7 +132,7 @@ function TodoListItem({ todo, index, todosState, openDrawer }) {
     </>
   );
 }
-
+// useTodoOptionDrawerStatus
 function useTodoOptionDrawerStatus() {
   const [todoId, setTodoId] = useState(null);
   const opened = useMemo(() => todoId !== null, [todoId]);
@@ -123,24 +147,89 @@ function useTodoOptionDrawerStatus() {
   };
 }
 
+// EditTodoModal
+function EditTodoModal({ state, todosState, todo }) {
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    form.content.value = form.content.value.trim();
+
+    if (form.content.value.length == 0) {
+      alert("할 일을 입력해주세요");
+      form.value.focus();
+      return;
+    }
+  };
+  return (
+    <>
+      <Modal
+        open={state.opened}
+        onClose={state.close}
+        className="flex justify-center items-center"
+      >
+        <div className="bg-white rounded-[20px] p-7 w-full max-w-lg">
+          <form onSubmit={onSubmit} className="flex flex-col gap-2">
+            <TextField
+              minRows={3}
+              maxRows={10}
+              multiline
+              autoComplete="off"
+              name="content"
+              label="할일을 입력해주세요."
+              variant="outlined"
+              defaultValue={todo?.content}
+            />
+
+            <Button type="submit" variant="contained">
+              수정
+            </Button>
+          </form>
+        </div>
+      </Modal>
+    </>
+  );
+}
+
+// useEditTodoModalState
+function useEditTodoModalState() {
+  const [opened, setOpened] = useState(false);
+
+  const open = () => {
+    setOpened(true);
+  };
+
+  const close = () => {
+    setOpened(false);
+  };
+
+  return {
+    opened,
+    open,
+    close,
+  };
+}
+
+// TodoOptionDrawer
 function TodoOptionDrawer({ todosState, state }) {
-  const [editTOdoModalOpened, setEditTOdoModalOpened] = useState(false);
-
-  const openEditTodoModal = () => {
-    setEditTOdoModalOpened(true);
-  };
-
-  const closeEditTodoModal = () => {
-    setEditTOdoModalOpened(false);
-  };
-
   const removeTodo = () => {
     todosState.removeTodoById(state.todoId);
     state.close();
   };
+
+  const editTodoModalState = useEditTodoModalState();
+
+  const todo = todosState.findTodoById(state.todoId);
   return (
     <>
-      <SwipeableDrawer
+      <EditTodoModal
+        state={editTodoModalState}
+        todosState={todosState}
+        todo={todo}
+      />
+
+<SwipeableDrawer
         anchor={"bottom"}
         onOpen={() => {}}
         open={state.opened}
@@ -149,39 +238,37 @@ function TodoOptionDrawer({ todosState, state }) {
         <List className="!py-0">
           <ListItem className="!pt-6 !p-5">
             <span className="text-[color:var(--mui-color-primary-main)]">
-              {state.todoId}번
+              {todo?.id}번
             </span>
             <span>&nbsp;</span>
             <span>할일에 대해서</span>
           </ListItem>
           <Divider />
-          <ListItemButton
+          <ListItem
             className="!pt-6 !p-5 !items-baseline"
-            onClick={setEditTOdoModalOpened}
-          >
-            <i class="fa-regular fa-pen-to-square" oncli></i>&nbsp;&nbsp;수정
-          </ListItemButton>
-          <ListItemButton
-            className="!pt-6 !p-5 !items-baseline"
+            button
             onClick={removeTodo}
           >
-            <i class="fa-regular fa-trash-can"></i>
-            &nbsp;&nbsp;삭제
-          </ListItemButton>
+            <i className="fa-solid fa-trash-can"></i>
+            &nbsp;
+            <span>삭제</span>
+          </ListItem>
+          <ListItem
+            className="!pt-6 !p-5 !items-baseline"
+            button
+            onClick={editTodoModalState.open}
+          >
+            <i className="fa-solid fa-pen-to-square"></i>
+            &nbsp;
+            <span>수정</span>
+          </ListItem>
         </List>
       </SwipeableDrawer>
-
-      <Modal
-        open={editTOdoModalOpened}
-        onClose={closeEditTodoModal}
-        className="flex justify-center items-center"
-      >
-        <div className="bg-white p-10 rounded-[20px]">안녕하세요</div>
-      </Modal>
     </>
   );
 }
 
+// TodoList
 function TodoList({ todosState }) {
   const todoOptionDrawerStatus = useTodoOptionDrawerStatus();
 
@@ -208,7 +295,8 @@ function TodoList({ todosState }) {
   );
 }
 
-function NewTodoForm({ todosState }) {
+// NewTodoForm
+function NewTodoForm({ todosState, todo }) {
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -239,6 +327,7 @@ function NewTodoForm({ todosState }) {
           name="content"
           label="할일을 입력해주세요."
           variant="outlined"
+          defaultValue={todo?.content}
         />
 
         <Button type="submit" variant="contained">
